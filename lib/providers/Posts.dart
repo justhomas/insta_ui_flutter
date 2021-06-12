@@ -10,9 +10,14 @@ class Posts with ChangeNotifier {
   static const _baseUrl =
       "https://hiit.ria.rocks/videos_api/cdn/com.rstream.crafts?versionCode=40&lurl=Canvas%20painting%20ideas";
   List _Posts = [];
+  List _comments = [];
   List _bookMarkedPosts = [];
   List get postsList {
     return [..._Posts];
+  }
+
+  List get commentList {
+    return [..._comments];
   }
 
   bool isBookmarked(String id) {
@@ -61,6 +66,23 @@ class Posts with ChangeNotifier {
         "Content-Type": "application/x-www-form-urlencoded",
       });
       _Posts = json.decode(r.body);
+    } catch (error) {
+      print(error);
+    }
+    notifyListeners();
+  }
+
+  Future<void> fetchComments(String id) async {
+    try {
+      //fetch comment for post with the given id
+      http.Response r = await http
+          .get(Uri.parse("http://cookbookrecipes.in/test.php"), headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      });
+
+      _comments = json.decode(r.body);
+      print(_comments);
     } catch (error) {
       print(error);
     }

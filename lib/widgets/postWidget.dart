@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_flutter/providers/Posts.dart';
+import 'package:insta_flutter/screens/comments.dart';
 import 'package:provider/provider.dart';
 
 Color iconColor = Colors.grey;
@@ -165,40 +166,10 @@ class _PostWidgetState extends State<PostWidget> {
                     ),
                     InkWell(
                       onTap: () {
-                        showModalBottomSheet<void>(
-                          enableDrag: true,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                          ),
-                          backgroundColor: Colors.white,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              padding: EdgeInsets.all(15),
-                              height: MediaQuery.of(context).size.height * 0.75,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Center(
-                                        child: Container(
-                                      height: 8,
-                                      width: 100,
-                                      margin: EdgeInsets.only(bottom: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Colors.grey),
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => CommentsScreen()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(0),

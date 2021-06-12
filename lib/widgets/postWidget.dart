@@ -2,26 +2,34 @@ import 'dart:ui';
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:insta_flutter/providers/Posts.dart';
+import 'package:provider/provider.dart';
 
 Color iconColor = Colors.grey;
 
 class PostWidget extends StatefulWidget {
   final String title;
   final String thumbnail;
-  final String user_name;
+  final String userName;
+  final String id;
   PostWidget(
-      {required this.title, required this.thumbnail, required this.user_name});
+      {required this.title,
+      required this.thumbnail,
+      required this.userName,
+      required this.id});
   @override
   _PostWidgetState createState() => _PostWidgetState();
 }
 
 class _PostWidgetState extends State<PostWidget> {
   var _selection;
-  late bool expanded;
+  late bool expanded, liked;
   @override
   void initState() {
     setState(() {
       expanded = false;
+      liked = false;
     });
   }
 
@@ -48,8 +56,8 @@ class _PostWidgetState extends State<PostWidget> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(
-                  Icons.flag_outlined,
+                child: FaIcon(
+                  FontAwesomeIcons.flag,
                   color: iconColor,
                 ),
               ),
@@ -76,7 +84,7 @@ class _PostWidgetState extends State<PostWidget> {
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text(widget.user_name),
+                child: Text(widget.userName),
               )),
               commentMenu,
             ],
@@ -85,7 +93,7 @@ class _PostWidgetState extends State<PostWidget> {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 8),
             child: Text(
-              widget.user_name,
+              widget.userName,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
@@ -99,7 +107,7 @@ class _PostWidgetState extends State<PostWidget> {
                           fontSize: 15,
                           letterSpacing: 1.2,
                           fontWeight: FontWeight.bold),
-                      text: widget.user_name,
+                      text: widget.userName,
                       children: [
                     TextSpan(
                         text: widget.title.length > 50 && !expanded
@@ -127,124 +135,111 @@ class _PostWidgetState extends State<PostWidget> {
                         : TextSpan()
                   ]))),
           Container(
-              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              margin: EdgeInsets.only(top: 15),
-              child: PostLikeCommentWidget())
-        ]));
-  }
-}
-
-class PostLikeCommentWidget extends StatefulWidget {
-  @override
-  _PostLikeCommentWidgetState createState() => _PostLikeCommentWidgetState();
-}
-
-class _PostLikeCommentWidgetState extends State<PostLikeCommentWidget> {
-  late bool liked, disliked;
-  late int noLikes, noDislikes, noComments;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      liked = false;
-      disliked = false;
-      noLikes = new Random().nextInt(500);
-      noDislikes = new Random().nextInt(4000);
-      noComments = new Random().nextInt(5000);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    if (!liked) {
-                      liked = true;
-                      noLikes++;
-                      if (disliked) {
-                        disliked = false;
-                        noDislikes--;
-                      }
-                    } else {
-                      liked = false;
-                      noLikes--;
-                    }
-                  });
-                },
-                child: Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Icon(
-                      liked ? Icons.thumb_up : Icons.thumb_up_outlined,
-                      color: iconColor,
-                    )),
-              ),
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet<void>(
-                    enableDrag: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20)),
+            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+            margin: EdgeInsets.only(top: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (!liked) {
+                            liked = true;
+                          } else {
+                            liked = false;
+                          }
+                        });
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: FaIcon(
+                            liked
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            color: iconColor,
+                          )),
                     ),
-                    backgroundColor: Colors.white,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        height: MediaQuery.of(context).size.height * 0.75,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Center(
-                                  child: Container(
-                                height: 8,
-                                width: 100,
-                                margin: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.grey),
-                              )),
-                            ],
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          enableDrag: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Icon(Icons.comment_outlined, color: iconColor),
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              padding: EdgeInsets.all(15),
+                              height: MediaQuery.of(context).size.height * 0.75,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Center(
+                                        child: Container(
+                                      height: 8,
+                                      width: 100,
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Colors.grey),
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Icon(Icons.comment_outlined, color: iconColor),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Icon(Icons.share_outlined, color: iconColor),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Provider.of<Posts>(context, listen: false)
+                                  .isBookmarked(widget.id)
+                              ? Provider.of<Posts>(context, listen: false)
+                                  .removeBookmark(widget.id)
+                              : Provider.of<Posts>(context, listen: false)
+                                  .bookmark({
+                                  "id": widget.id,
+                                  "title": widget.title,
+                                  "channelname": widget.userName,
+                                  "high thumbnail": widget.thumbnail
+                                });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: FaIcon(
+                              Provider.of<Posts>(context, listen: false)
+                                      .isBookmarked(widget.id)
+                                  ? FontAwesomeIcons.solidBookmark
+                                  : FontAwesomeIcons.bookmark,
+                              color: iconColor),
+                        )),
+                  ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Icon(Icons.share_outlined, color: iconColor),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Icon(Icons.add_circle_outline, color: iconColor),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          )
+        ]));
   }
 }

@@ -5,15 +5,12 @@ import 'package:insta_flutter/providers/Posts.dart';
 import 'package:insta_flutter/widgets/postWidget.dart';
 import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
+class BookmarksPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _BookmarksPageState createState() => _BookmarksPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _BookmarksPageState extends State<BookmarksPage> {
   bool init = true;
   bool loading = false;
   @override
@@ -32,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       loading = true;
     });
-    await Provider.of<Posts>(context).fetchPosts();
+    await Provider.of<Posts>(context).fetchBookmarkedPosts();
     setState(() {
       loading = false;
     });
@@ -46,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : posts.postsList.length == 0
+              : posts.bookMarkedPosts.length == 0
                   ? Padding(
                       padding: const EdgeInsets.all(20),
                       child: Center(
@@ -57,13 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       )),
                     )
                   : ListView.builder(
-                      itemCount: min(30, posts.postsList.length),
+                      itemCount: min(30, posts.bookMarkedPosts.length),
                       itemBuilder: (context, item) {
                         return PostWidget(
-                          title: posts.postsList[item]["title"],
-                          thumbnail: posts.postsList[item]["high thumbnail"],
-                          userName: posts.postsList[item]["channelname"],
-                          id: posts.postsList[item]["id"],
+                          title: posts.bookMarkedPosts[item]["title"],
+                          thumbnail: posts.bookMarkedPosts[item]
+                              ["high thumbnail"],
+                          userName: posts.bookMarkedPosts[item]["channelname"],
+                          id: posts.bookMarkedPosts[item]["id"],
                         );
                       })),
       // This trailing comma makes auto-formatting nicer for build methods.

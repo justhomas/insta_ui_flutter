@@ -1,16 +1,14 @@
 # insta_flutter
 
-A new Flutter project.
+A Flutter app that tries to clone the instagram UI for posts and comments.
 
-## Getting Started
+## Packages Used
 
-This project is a starting point for a Flutter application.
+http: ^0.13.3
+provider: ^5.0.0
+shared_preferences: ^2.0.6
+font_awesome_flutter: ^9.1.0
 
-A few resources to get you started if this is your first Flutter project:
+## Details
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The app uses provider package for state management. The logic for fetching posts and comments are inclued in the Posts provider(lib/providers/Posts.dart). The user can bookmark posts and the bookmarked posts will be saved locally so that even if the app restarts the user can access this list. The bookmarked posts are stored as json String using shared_preferences package. The bottom navigation bar has two buttons which will allow the user to navigate to the home page or the bookmarks page.

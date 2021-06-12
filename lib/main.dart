@@ -31,25 +31,31 @@ class _MyAppState extends State<MyApp> {
         return Posts();
       },
       child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          title: 'Insta',
+          theme: ThemeData(primaryColor: Colors.black),
           home: Scaffold(
               appBar: AppBar(
+                backgroundColor: Colors.white,
                 leading: IconButton(
-                    icon: FaIcon(FontAwesomeIcons.instagram), onPressed: () {}),
+                    icon: FaIcon(
+                      FontAwesomeIcons.instagram,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {}),
                 leadingWidth: 25,
                 actions: [
                   IconButton(
                     onPressed: () {},
                     icon: FaIcon(
                       FontAwesomeIcons.telegramPlane,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   )
                 ],
-                title: Text('Instagram'),
+                title: Text(
+                  'Instagram',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               body: _children[currentPage],
               bottomNavigationBar: BottomNavigationBar(
@@ -65,11 +71,15 @@ class _MyAppState extends State<MyApp> {
                 items: [
                   BottomNavigationBarItem(
                       icon: FaIcon(FontAwesomeIcons.home,
-                          color: currentPage == 0 ? Colors.blue : Colors.grey),
+                          color: currentPage == 0
+                              ? Colors.black
+                              : Colors.grey[400]),
                       label: 'Home'),
                   BottomNavigationBarItem(
                       icon: FaIcon(FontAwesomeIcons.solidBookmark,
-                          color: currentPage == 1 ? Colors.blue : Colors.grey),
+                          color: currentPage == 1
+                              ? Colors.black
+                              : Colors.grey[400]),
                       label: 'Bookmarks'),
                 ],
               ))),

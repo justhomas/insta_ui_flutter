@@ -91,15 +91,8 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           Image.network(widget.thumbnail),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 15, 8),
-            child: Text(
-              widget.userName,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-          ),
           Container(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 0),
               child: RichText(
                   text: TextSpan(
                       style: TextStyle(
@@ -172,13 +165,15 @@ class _PostWidgetState extends State<PostWidget> {
                                 builder: (builder) => CommentsScreen()));
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Icon(Icons.comment_outlined, color: iconColor),
+                        padding: const EdgeInsets.only(left: 8),
+                        child:
+                            FaIcon(FontAwesomeIcons.comment, color: iconColor),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
-                      child: Icon(Icons.share_outlined, color: iconColor),
+                      child:
+                          FaIcon(FontAwesomeIcons.paperPlane, color: iconColor),
                     ),
                     Expanded(
                       child: Container(),

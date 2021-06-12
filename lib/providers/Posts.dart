@@ -80,9 +80,7 @@ class Posts with ChangeNotifier {
         "Accept": "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
       });
-
       _comments = json.decode(r.body);
-      print(_comments);
     } catch (error) {
       print(error);
     }

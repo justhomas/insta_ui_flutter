@@ -1,9 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
-
-import 'package:insta_flutter/providers/Posts.dart';
-import 'package:provider/provider.dart';
 
 Color iconColor = Colors.grey;
 

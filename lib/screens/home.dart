@@ -75,8 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemCount: posts.postsList.length,
                           itemBuilder: (context, item) {
                             return PostWidget(
-                              title: "",
-                            );
+                                title: posts.postsList[item]["title"],
+                                thumbnail: posts.postsList[item]
+                                    ["high thumbnail"],
+                                user_name: posts.postsList[item]
+                                    ["channelname"]);
                           })),
           // This trailing comma makes auto-formatting nicer for build methods.
         ));
